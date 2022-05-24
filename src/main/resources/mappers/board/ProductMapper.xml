@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.multi.lastproject.dao.IProductDAO">
+ 
+   <select id="list" resultType="com.multi.lastproject.model.FoodProductVO" parameterType="com.multi.lastproject.model.PrdCriteria" >
+   select * from (
+                select * 
+                from foodproduct where ctgId=#{ctgId} order by fdPrdNo desc) as T1 
+        limit #{amount} OFFSET #{skip}
+
+   </select>
+   <select id="Alllist" resultType="com.multi.lastproject.model.FoodProductVO" >
+   select * from (
+                select * 
+                from foodproduct) as T1 
+       
+
+   </select>
+   
+    <select id="cloAlllist" resultType="com.multi.lastproject.model.ClothsProductVO" >
+   select * from (
+                select * 
+                from clothosproduct) as T1 
+       
+   </select>
+   
+   
+   
+   <select id="fplist" resultType="com.multi.lastproject.model.FoodProductVO">
+  	   SELECT * FROM foodproduct ORDER BY fdPrdNo DESC limit 8
+  	</select>
+  	 <select id="loginfplist" resultType="com.multi.lastproject.model.FoodProductVO">
+  	   SELECT * FROM foodproduct where ctgId=#{ctgId} ORDER BY fdPrdNo DESC limit 8
+  	</select>
+ 
+  	<select id="clogetTotal" resultType="int">
+  		select count(*) from clothosproduct where ctgId=#{ctgId};
+  	</select>
+  	<select id="getTotalBoard" resultType="int" parameterType="String">
+  		select count(*) from foodproduct where ctgId=#{ctgId};
+  	</select>
+  	<select id="getPage" resultType="com.multi.lastproject.model.FoodProductVO">
+   select * from foodproduct where fdPrdNo=#{fdPrdNo}
+   </select>
+   
+   <select id="selectProudct" parameterType="string" resultType="com.multi.lastproject.model.FoodProductVO">
+   		SELECT *
+   		FROM foodproduct
+   		WHERE fdPrdName=#{keyword}
+   </select>
+ 
+ <select id="clolist" resultType="com.multi.lastproject.model.ClothsProductVO" parameterType="com.multi.lastproject.model.PrdCriteria" >
+   select * from (
+                select * 
+                from clothosproduct where ctgId=#{ctgId} order by cloPrdNo desc) as T1 
+        limit #{amount} OFFSET #{skip}
+
+   </select>
+ <select id="clogetPage" resultType="com.multi.lastproject.model.ClothsProductVO">
+   select * from clothosproduct where cloPrdNo=#{cloPrdNo}
+   </select>
+ 	<update id="updateCloRate" parameterType="string">
+ 	update clothosProduct set cloPrdGrade=#{cloPrdGrade} cloPrdAmount=cloPrdAmount+1 where cloPrdNo=#{cloPrdNo}
+ 	</update>
+ 	<update id="updatefdRate" parameterType="string">
+ 	update foodProduct set fdPrdGrade=#{fdPrdGrade} fdPrdAmount=fdPrdAmount+1 where fdPrdNo=#{fdPrdNo}
+ 	</update>
+  </mapper>
